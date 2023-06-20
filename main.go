@@ -57,6 +57,7 @@ func main() {
 	newRouter.Get("/error", handleError)
 	//newRouter.Get("/user", apiCon.handleUser)
 	newRouter.Post("/user", apiCon.handleUser)
+	newRouter.Get("/user", apiCon.handleGetUser)
 	router.Mount("/api", newRouter)
 
 	fmt.Println("Port: ", portStr)

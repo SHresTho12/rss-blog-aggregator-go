@@ -17,4 +17,5 @@ type User struct {
 	Password  string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	ApiKey    string
 }
