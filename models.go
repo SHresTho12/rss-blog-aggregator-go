@@ -3,6 +3,7 @@ package main
 import (
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/shrestho12/go-practice-project/internal/db"
 )
 
@@ -24,5 +25,25 @@ func UserToUser(dbUser *db.User) user {
 		ApiKey:    dbUser.ApiKey,
 		CreatedAt: dbUser.CreatedAt,
 		UpdatedAt: dbUser.UpdatedAt,
+	}
+}
+
+type feed struct {
+	ID        uuid.UUID `json:"id"`
+	Name      string    `json:"name"`
+	Url       string    `json:"url"`
+	UserID    uuid.UUID `json:"user_id"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+func feedToFeed(dbFeed *db.Feed) feed {
+	return feed{
+		ID:        dbFeed.ID,
+		Name:      dbFeed.Name,
+		Url:       dbFeed.Url,
+		UserID:    dbFeed.UserID,
+		CreatedAt: dbFeed.CreatedAt,
+		UpdatedAt: dbFeed.UpdatedAt,
 	}
 }

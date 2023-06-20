@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/shrestho12/go-practice-project/internal/auth"
 	"github.com/shrestho12/go-practice-project/internal/db"
 )
 
@@ -45,17 +44,17 @@ func (apiConfig *apiConfig) handleUser(w http.ResponseWriter, r *http.Request) {
 	RespondWithJson(w, 201, UserToUser(&user))
 }
 
-func (apiConfig *apiConfig) handleGetUser(w http.ResponseWriter, r *http.Request) {
-	apikey, err := auth.GetApi(r.Header)
-	if err != nil {
-		RespondWithError(w, 403, "User not created")
-		return
-	}
-	user, err := apiConfig.DB.GetUserByApiKey(r.Context(), apikey)
-	if err != nil {
-		RespondWithError(w, 404, "User not found")
-		return
-	}
+func (apiConfig *apiConfig) handleGetUser(w http.ResponseWriter, r *http.Request, user db.User) {
+	// apikey, err := auth.GetApi(r.Header)
+	// if err != nil {
+	// 	RespondWithError(w, 403, "User not created")
+	// 	return
+	// }
+	// user, err := apiConfig.DB.GetUserByApiKey(r.Context(), apikey)
+	// if err != nil {
+	// 	RespondWithError(w, 404, "User not found")
+	// 	return
+	// }
 
 	RespondWithJson(w, 200, UserToUser(&user))
 
