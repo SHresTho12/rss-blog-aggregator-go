@@ -29,21 +29,29 @@ func UserToUser(dbUser *db.User) user {
 }
 
 type feed struct {
-	ID        uuid.UUID `json:"id"`
-	Name      string    `json:"name"`
-	Url       string    `json:"url"`
-	UserID    uuid.UUID `json:"user_id"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID     uuid.UUID `json:"id"`
+	Name   string    `json:"name"`
+	Url    string    `json:"url"`
+	UserID uuid.UUID `json:"user_id"`
+	// CreatedAt time.Time `json:"created_at"`
+	// UpdatedAt time.Time `json:"updated_at"`
 }
 
 func feedToFeed(dbFeed *db.Feed) feed {
 	return feed{
-		ID:        dbFeed.ID,
-		Name:      dbFeed.Name,
-		Url:       dbFeed.Url,
-		UserID:    dbFeed.UserID,
-		CreatedAt: dbFeed.CreatedAt,
-		UpdatedAt: dbFeed.UpdatedAt,
+		ID:     dbFeed.ID,
+		Name:   dbFeed.Name,
+		Url:    dbFeed.Url,
+		UserID: dbFeed.UserID,
+		// CreatedAt: dbFeed.CreatedAt,
+		// UpdatedAt: dbFeed.UpdatedAt,
 	}
+}
+
+func feedsArrayToFeedsArray(dbFeed []db.Feed) []feed {
+	feeds := make([]feed, len(dbFeed))
+	for i, f := range dbFeed {
+		feeds[i] = feedToFeed(&f)
+	}
+	return feeds
 }

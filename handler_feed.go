@@ -42,3 +42,17 @@ func (apiConfig *apiConfig) handleCreateFeed(w http.ResponseWriter, r *http.Requ
 	RespondWithJson(w, 201, feedToFeed(&feed))
 
 }
+
+func (apiConfig *apiConfig) handlerGetFeed(w http.ResponseWriter, r *http.Request) {
+
+	feeds, err := apiConfig.DB.GetFeed(r.Context())
+	if err != nil {
+		RespondWithError(w, 500, "Feeds not found")
+		return
+	}
+
+	defer r.Body.Close()
+
+	RespondWithJson(w, 201, feedsArrayToFeedsArray(feeds))
+
+}
