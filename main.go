@@ -60,6 +60,9 @@ func main() {
 	newRouter.Get("/user", apiCon.authMiddleware(apiCon.handleGetUser))
 	newRouter.Post("/feed", apiCon.authMiddleware(apiCon.handleCreateFeed))
 	newRouter.Get("/feed", apiCon.handlerGetFeed)
+	newRouter.Post("/feedFollow", apiCon.authMiddleware(apiCon.handleCreateFeedFollow))
+	newRouter.Get("/feedFollow", apiCon.authMiddleware(apiCon.handlerGetFeedFollow))
+	newRouter.Delete("/feedFollow/{feedFollowId}", apiCon.authMiddleware(apiCon.handlerDeleteFeedFollow))
 	router.Mount("/api", newRouter)
 
 	fmt.Println("Port: ", portStr)
