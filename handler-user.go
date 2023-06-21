@@ -59,3 +59,20 @@ func (apiConfig *apiConfig) handleGetUser(w http.ResponseWriter, r *http.Request
 	RespondWithJson(w, 200, UserToUser(&user))
 
 }
+
+func (apiConfig *apiConfig) handlerUserGetPosts(w http.ResponseWriter, r *http.Request, user db.User) {
+
+	posts, err := apiConfig.DB.GetPostForUser(r.Context(), db.GetPostForUserParams{
+		UserID: user.ID,
+		Limit:  10,
+	})
+	if err != nil {
+		RespondWithError(w, 500, "Could not get posts")
+		return
+	}
+
+	defer r.Body.Close()
+
+	RespondWithJson(w, 201, postArrayToPostArray(posts))
+
+}

@@ -81,3 +81,40 @@ func feedFollowsArrayToFeedFollowsArray(dbFeedFollow []db.FeedFollow) []feedFoll
 	}
 	return feedFollows
 }
+
+type Post struct {
+	ID          uuid.UUID `json:"id"`
+	FeedID      uuid.UUID `json:"feed_id"`
+	Title       string    `json:"title"`
+	Description *string   `json:"description"`
+	Url         string    `json:"url"`
+	PublishedAt time.Time `json:"published_at"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+}
+
+func postToPost(dbPost *db.Post) Post {
+	var description *string
+	if dbPost.Description.Valid {
+		description = &dbPost.Description.String
+	}
+
+	return Post{
+		ID:          dbPost.ID,
+		FeedID:      dbPost.FeedID,
+		Title:       dbPost.Title,
+		Description: description,
+		Url:         dbPost.Url,
+		PublishedAt: dbPost.PublishedAt,
+		CreatedAt:   dbPost.CreatedAt,
+		UpdatedAt:   dbPost.UpdatedAt,
+	}
+}
+
+func postArrayToPostArray(dbPost []db.Post) []Post {
+	posts := make([]Post, len(dbPost))
+	for i, p := range dbPost {
+		posts[i] = postToPost(&p)
+	}
+	return posts
+}

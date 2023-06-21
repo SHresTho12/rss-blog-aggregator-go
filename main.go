@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
@@ -19,6 +20,7 @@ type apiConfig struct {
 }
 
 func main() {
+
 	godotenv.Load()
 	fmt.Println("Hello World")
 	portStr := os.Getenv("PORT")
@@ -35,6 +37,8 @@ func main() {
 	apiCon := apiConfig{
 		DB: db.New(conn),
 	}
+
+	go startScraping(apiCon.DB, 10, time.Minute)
 
 	//create a new router
 	router := chi.NewRouter()
@@ -63,6 +67,7 @@ func main() {
 	newRouter.Post("/feedFollow", apiCon.authMiddleware(apiCon.handleCreateFeedFollow))
 	newRouter.Get("/feedFollow", apiCon.authMiddleware(apiCon.handlerGetFeedFollow))
 	newRouter.Delete("/feedFollow/{feedFollowId}", apiCon.authMiddleware(apiCon.handlerDeleteFeedFollow))
+	newRouter.Get("/posts", apiCon.authMiddleware(apiCon.handlerUserGetPosts))
 	router.Mount("/api", newRouter)
 
 	fmt.Println("Port: ", portStr)
