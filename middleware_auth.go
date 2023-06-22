@@ -13,7 +13,7 @@ func (apiConfig *apiConfig) authMiddleware(next authHandler) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		apikey, err := auth.GetApi(r.Header)
 		if err != nil {
-			RespondWithError(w, 403, "User not created")
+			RespondWithError(w, 403, err.Error())
 			return
 		}
 		user, err := apiConfig.DB.GetUserByApiKey(r.Context(), apikey)
