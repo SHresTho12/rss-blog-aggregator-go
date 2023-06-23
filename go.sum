@@ -1,3 +1,5 @@
+github.com/flowchartsman/swaggerui v0.0.0-20221017034628-909ed4f3701b h1:oy54yVy300Db264NfQCJubZHpJOl+SoT6udALQdFbSI=
+github.com/flowchartsman/swaggerui v0.0.0-20221017034628-909ed4f3701b/go.mod h1:/RJwPD5L4xWgCbqQ1L5cB12ndgfKKT54n9cZFf+8pus=
 github.com/go-chi/chi v1.5.4 h1:QHdzF2szwjqVV4wmByUnTcsbIg7UGaQ0tPF2t5GcAIs=
 github.com/go-chi/chi v1.5.4/go.mod h1:uaf8YgoFazUOkPBG7fxPftUylNumIev9awIWOENIuEg=
 github.com/go-chi/cors v1.2.1 h1:xEC8UT3Rlp2QuWNEr4Fs/c2EAGVKBwy/1vHx3bppil4=

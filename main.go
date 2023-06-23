@@ -8,6 +8,8 @@ import (
 	"os"
 	"time"
 
+	//"github.com/flowchartsman/swaggerui"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
@@ -18,6 +20,12 @@ import (
 type apiConfig struct {
 	DB *db.Queries
 }
+
+// @Version 1.0.0
+// @Title RSS Aggregation
+// @Description A RSS aggregation that follows specified blogs and scrapes their feeds
+// @ContactEmail abce@email.com
+// @Server http://localhost:8000/api/ Server-1
 
 func main() {
 
@@ -56,11 +64,18 @@ func main() {
 		MaxAge:           300,
 	}))
 
+	// spec, err := ioutil.ReadFile("./oas.yml")
+	// if err != nil {
+	// 	fmt.Println("Error")
+	// }
+
+	// http.Handle("/swagger/", http.StripPrefix("/swagger", swaggerui.Handler(spec)))
+
 	newRouter := chi.NewRouter()
 	newRouter.Get("/ready", handleReady)
 	newRouter.Get("/error", handleError)
 	//newRouter.Get("/user", apiCon.handleUser)
-	newRouter.Post("/user", apiCon.handleUser)
+	newRouter.Post("/user", apiCon.handleCreateUser)
 	newRouter.Get("/user", apiCon.authMiddleware(apiCon.handleGetUser))
 	newRouter.Post("/feed", apiCon.authMiddleware(apiCon.handleCreateFeed))
 	newRouter.Get("/feed", apiCon.handlerGetFeed)
@@ -68,6 +83,7 @@ func main() {
 	newRouter.Get("/feedFollow", apiCon.authMiddleware(apiCon.handlerGetFeedFollow))
 	newRouter.Delete("/feedFollow/{feedFollowId}", apiCon.authMiddleware(apiCon.handlerDeleteFeedFollow))
 	newRouter.Get("/posts", apiCon.authMiddleware(apiCon.handlerUserGetPosts))
+	//newRouter.Get("/swagger", handleSwagger)
 	router.Mount("/api", newRouter)
 
 	fmt.Println("Port: ", portStr)

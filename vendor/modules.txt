@@ -1,3 +1,6 @@
+# github.com/flowchartsman/swaggerui v0.0.0-20221017034628-909ed4f3701b
+## explicit; go 1.16
+github.com/flowchartsman/swaggerui
 # github.com/go-chi/chi v1.5.4
 ## explicit; go 1.16
 github.com/go-chi/chi

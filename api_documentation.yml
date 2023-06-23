@@ -127,7 +127,7 @@ paths:
           required: true
           description: ID of the feed follow to delete
       security:
-        - ApiKeyAuth:: []
+        - ApiKeyAuth: []
       responses:
         '201':
           description: Feed follow deleted successfully

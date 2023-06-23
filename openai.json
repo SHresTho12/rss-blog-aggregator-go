@@ -1,0 +1,367 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "RSS Blog Aggregator",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/api/",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/user": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "The user was successfully retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The user was successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feed": {
+      "post": {
+        "summary": "Create a new feed",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "API key for authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "url"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feed created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Feed"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request payload"
+          },
+          "5XX": {
+            "description": "Feed not created"
+          }
+        }
+      }
+    },
+    "/feedFollow": {
+      "post": {
+        "summary": "Follow a feed",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "FeedID": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                },
+                "required": [
+                  "FeedID"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Feed followed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedFollow"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request payload"
+          },
+          "5XX": {
+            "description": "Feed not followed"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get all feeds That user has followed",
+        "responses": {
+          "200": {
+            "description": "Feeds retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Feed"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Feeds not found"
+          }
+        }
+      }
+    },
+    "/feedFollow/{feedFollowId}": {
+      "delete": {
+        "summary": "Delete a feed follow",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "feedFollowId",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true,
+            "description": "ID of the feed follow to delete"
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Feed follow deleted successfully"
+          },
+          "400": {
+            "description": "Invalid request payload"
+          },
+          "403": {
+            "description": "User not created"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "5XX": {
+            "description": "Could not delete feed"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    },
+    "schemas": {
+      "Feed": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Url": {
+            "type": "string"
+          },
+          "UserID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "LastFetchedAt": {
+            "nullable": true,
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "Name",
+          "Url",
+          "UserID"
+        ]
+      },
+      "FeedFollow": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "FeedID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "UserID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Post": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "FeedID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Title": {
+            "type": "string"
+          },
+          "Description": {
+            "nullable": true,
+            "type": "string"
+          },
+          "Url": {
+            "type": "string"
+          },
+          "PublishedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Email": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string"
+          },
+          "CreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "UpdatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ApiKey": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -10,7 +10,15 @@ import (
 	"github.com/shrestho12/go-practice-project/internal/db"
 )
 
-func (apiConfig *apiConfig) handleUser(w http.ResponseWriter, r *http.Request) {
+// @Title Create new user
+// @Description Create user with body
+
+// @Param  user  body  db.CreateUserParams  true  "Info of a user."
+// @Success  201  object  main.UserToUser  "UsersResponse JSON"
+// @Failure  400  object  main.RespondWithError  "ErrorResponse JSON"
+// @Resource users
+// @Route /api/user [post]
+func (apiConfig *apiConfig) handleCreateUser(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Ready")
 
 	type param struct {
