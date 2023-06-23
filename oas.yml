@@ -1,0 +1,54 @@
+components:
+  schemas:
+    "": {}
+    CreateUserParams:
+      properties:
+        CreatedAt:
+          format: date-time
+          type: string
+        Email:
+          type: string
+        ID:
+          $ref: '#/components/schemas/'
+        Name:
+          type: string
+        Password:
+          type: string
+        UpdatedAt:
+          format: date-time
+          type: string
+      type: object
+info:
+  contact:
+    email: abce@email.com
+  description: A RSS aggregation that follows specified blogs and scrapes their feeds
+  title: RSS Aggregation
+  version: 1.0.0
+openapi: 3.0.0
+paths:
+  /api/user:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserParams'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/'
+          description: UsersResponse JSON
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/'
+          description: ErrorResponse JSON
+      tags:
+      - users
+servers:
+- description: ' Server-1'
+  url: http://localhost:8000/api/
