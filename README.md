@@ -63,7 +63,3 @@ Below we'd like to describe the conventions or tools specific to Golang project.
 ## Notes
 
 
-* Every project **MUST** use `dep` for vendor management and **MUST** checkin `vendor` direcotry.
-* `cmd` and `build` **MUST** have the same set of subdirectories for main targets
-  * For example, `cmd/admin,cmd/controller` and `build/admin,build/controller`.
-  * Dockerfile **MUST** be put under `build` directory even if you have only one Dockerfile.
